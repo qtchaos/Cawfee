@@ -1,4 +1,4 @@
-from utils.logging import log
+from utils.logging import Logger
 from utils.io import register_key, read_key, update_key
 
 
@@ -19,9 +19,11 @@ class Plugin:
         main()
 
 
+LOGGER = Logger("ExamplePlugin")
+
+
 def main():
     KEY_FROM_CONFIG = read_key("key", "ExamplePlugin")
-    log("Hello from Example Plugin")
+    LOGGER.log("Hello from Example Plugin")
     if KEY_FROM_CONFIG == "value":
         update_key("key", "new value", "ExamplePlugin")
-

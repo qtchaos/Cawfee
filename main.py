@@ -1,13 +1,15 @@
 import os
 
-from utils.io import initialize_config, register_key
+from utils.io import initialize_config
 
-from utils.logging import log
+from utils.logging import Logger
 from utils.plugin import load_plugins, choose_plugins
+
+LOGGER = Logger()
 
 
 def main():
-    log("Brewing a fresh cup of coffee...")
+    LOGGER.log("Brewing a fresh cup of coffee...")
     if not os.path.exists("config.json"):
         initialize_config()
     load_plugins()
@@ -16,4 +18,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
