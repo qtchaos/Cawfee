@@ -15,4 +15,4 @@ python main.py
 ```
 
 ## Documentation
-coming soon.
+Check out the [wiki](https://github.com/qtchaos/Cawfee/wiki), which explains how to setup a new plugin!
