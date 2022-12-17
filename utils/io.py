@@ -18,7 +18,7 @@ def register_key(key: dict, plugin_name: str, alert_message: str = None):
     with open(file_name, "r+") as file:
         data = json.loads(file.read())
         if plugin_name not in data["plugins"]:
-            data["plugins"][plugin_name] = json.loads(json.dumps(data["plugins"], indent=2))
+            data["plugins"][plugin_name] = json.loads(json.dumps({}, indent=2))
 
         if list(key)[0] not in data["plugins"][plugin_name]:
             data["plugins"][plugin_name].update(key)
