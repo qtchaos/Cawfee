@@ -1,6 +1,6 @@
 # Cawfee
 
-Cawfee is a fast, simple and extensible plugin-based cybersecurity framework.
+Cawfee is a fast, simple and extensible example plugin system.
 * ⚡ Extremely easy to use plugin system.
 * 🔗 Modular design.
 
