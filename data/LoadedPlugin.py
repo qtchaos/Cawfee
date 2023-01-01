@@ -1,6 +1,6 @@
 import zlib
 
-from data.Plugins import plugins
+from data import Plugins
 from utils.parsing import parse_docstring
 
 
@@ -8,12 +8,12 @@ class LoadedPlugin:
     """ Plugin's data and execute object. """
 
     def __init__(self, plugin: object):
-        doc_data = parse_docstring(plugin.__doc__)
+        doc_data = parse_docstring(str(plugin.__doc__))
         self.name = doc_data["Name"]
         self.author = doc_data["Author"]
         self.version = doc_data["Version"]
-        self.execute = plugin.execute
-        plugins[self.name] = self
+        self.execute = plugin.execute  # type: ignore
+        Plugins.plugins[self.name] = self
 
     def get_executor(self):
         return self.execute

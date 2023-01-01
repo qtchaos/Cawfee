@@ -1,22 +1,28 @@
 import importlib
 import os
 from multiprocessing import Process
+from typing import Optional
 
-from data.LoadedPlugin import LoadedPlugin
-from data.Plugins import plugins
+from data import LoadedPlugin, plugins
 from utils.logging import Logger
 
 LOGGER = Logger("PluginLoader")
 
 
-def choose_plugins(state: str = "choose"):
+def choose_plugins(state: str = "choose") -> None:
     if state == "choose":
         LOGGER.log("Please choose a plugin to execute:")
         for plugin in plugins.values():
-            LOGGER.log(f"└──▷ {plugin.get_name()}")
+            LOGGER.log(f"└──▷ {plugin.get_name()}")  # type: ignore
         LOGGER.log("└──▷ All")
 
-    input_name = input("> ")
+    try:
+        input_name = input("> ")
+    except KeyboardInterrupt:
+        print("")
+        LOGGER.log("Exiting...")
+        exit(0)
+
     if input_name in plugins:
         execute_plugin(plugins, name=input_name)
     elif input_name.lower() == "all":
@@ -26,21 +32,24 @@ def choose_plugins(state: str = "choose"):
         choose_plugins(state="invalid_input")
 
 
-def load_plugins():
+def load_plugins() -> None:
     LOGGER.log("Loading plugins...")
     importlib.invalidate_caches()
     for file in os.listdir("plugins"):
         if file.endswith(".py"):
             plugin_name = file[:-3]
 
-            plugin_module = importlib.import_module(f"plugins.{plugin_name}", ".")
+            plugin_module = importlib.import_module(f"plugins.{plugin_name}",
+                                                    ".")
             plugin_class = getattr(plugin_module, "Plugin")
             LoadedPlugin(plugin_class())
 
     LOGGER.log(f"Loaded {len(plugins)} plugin{multiple()} successfully.")
 
 
-def execute_plugin(plugins_l: list, execute_all: bool = False, name: str = None):
+def execute_plugin(plugins_l: dict[str, LoadedPlugin],
+                   execute_all: bool = False,
+                   name: Optional[str] = None) -> None:
     processes = []
     process_len = 1
     if not execute_all and name is None:
@@ -60,5 +69,5 @@ def execute_plugin(plugins_l: list, execute_all: bool = False, name: str = None)
     LOGGER.log(f"Executed {process_len} plugin{multiple()} successfully.")
 
 
-def multiple():
+def multiple() -> str:
     return 's' if len(plugins) != 1 else ''

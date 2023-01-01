@@ -1,5 +1,5 @@
+from utils.io import read_key, register_key, update_key
 from utils.logging import Logger
-from utils.io import register_key, read_key, update_key
 
 
 class Plugin:
@@ -11,7 +11,8 @@ class Plugin:
 
     def __init__(self):
         """ Registers values in the config file. """
-        register_key({"key": "value"}, "ExamplePlugin", "This is an example alert message.")
+        register_key({"key": "value"}, "ExamplePlugin",
+                     "This is an example alert message.")
 
     @staticmethod
     def execute():

@@ -1,5 +1,6 @@
 import json
 import os
+from typing import Optional
 
 from utils.logging import Logger
 
@@ -12,7 +13,9 @@ def initialize_config():
         file.write(json.dumps({"plugins": {}}, indent=2))
 
 
-def register_key(key: dict, plugin_name: str, alert_message: str = None):
+def register_key(key: dict,
+                 plugin_name: str,
+                 alert_message: Optional[str] = None) -> None:
     """
     Registers a key value pair in the config file, an alert message can be provided to be displayed to the user.
     If the key already exists, nothing will happen.
@@ -28,12 +31,13 @@ def register_key(key: dict, plugin_name: str, alert_message: str = None):
             file.write(json.dumps(data, indent=2))
             file.truncate()
 
-        if data["plugins"][plugin_name].get(list(key.keys())[0]) == key[list(key.keys())[0]]:
+        if data["plugins"][plugin_name].get(list(key.keys())[0]) == key[list(
+                key.keys())[0]]:
             if alert_message is not None:
                 LOGGER.log(f"{plugin_name}: {alert_message}")
 
 
-def update_key(key: str, value: str, plugin_name: str):
+def update_key(key: str, value: str, plugin_name: str) -> None:
     """
     Updates a key value pair in the config file.
     """
@@ -45,7 +49,7 @@ def update_key(key: str, value: str, plugin_name: str):
         file.truncate()
 
 
-def read_key(key: str, plugin_name: str):
+def read_key(key: str, plugin_name: str) -> str:
     """
     Reads a key value pair from the config file.
     """
@@ -54,7 +58,7 @@ def read_key(key: str, plugin_name: str):
         return data["plugins"][plugin_name][key]
 
 
-def save_line(line: str, plugin_name: str):
+def save_line(line: str, plugin_name: str) -> None:
     if not os.path.exists("loot"):
         os.mkdir("loot")
 
