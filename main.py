@@ -6,7 +6,7 @@ from utils.plugin import choose_plugins, load_plugins
 
 LOGGER = Logger()
 
-
+x={       "b":      "c"}
 def main():
     LOGGER.log("Brewing a fresh cup of coffee...")
     if not os.path.exists("config.json"):
